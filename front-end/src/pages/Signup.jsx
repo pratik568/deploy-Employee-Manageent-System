@@ -28,7 +28,7 @@ const Signup = () => {
       return handleError("name, email and password are required");
     }
     try {
-      const url = "https://deploy-employee-manageent-system.vercel.app/auth/signup";
+      const url = "https://deplo-employee-manageent-system.vercel.app/auth/signup";
       const response = await fetch(url, {
         method: "POST",
         headers: {
