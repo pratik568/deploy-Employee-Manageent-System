@@ -32,28 +32,43 @@ const signup = async (req, res) => {
 };
 
 const login = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const user = await UserModel.findOne({ email });
-        if (!user || !(await bcrypt.compare(password, user.password))) {
-            return res.status(403).json({ message: "Invalid email or password", success: false });
-        }
-        const jwtToken = jwt.sign({ email: user.email, _id: user._id }, process.env.JWT_SECRET, { expiresIn: "24h" });
-        res.status(200).json({
-            message: "Login successful",
-            success: true,
-            jwtToken,
-            email,
-            name: user.name,
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            message: "Internal Server Error",
-            success: false,
-        });
+  try {
+    const { email, password } = req.body;
+    
+    // Basic input validation
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required", success: false });
     }
+
+    // Find user by email
+    const user = await UserModel.findOne({ email });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(403).json({ message: "Invalid credentials", success: false });
+    }
+
+    // Generate JWT token
+    const jwtToken = jwt.sign(
+      { email: user.email, _id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h", issuer: 'EMS' }
+    );
+
+    // Send success response
+    res.status(200).json({
+      message: "Login successful",
+      success: true,
+      token: jwtToken,
+      user: { email: user.email, name: user.name }
+    });
+  } catch (err) {
+    console.error('Error during login:', err.message);
+    res.status(500).json({
+      message: "Internal Server Error",
+      success: false,
+    });
+  }
 };
+
 
 const employeeForm = async (req, res) => {
   try {
