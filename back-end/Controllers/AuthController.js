@@ -36,11 +36,24 @@ const signup = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).json({ message: "Email and password are required", success: false });
+        }
+
         const user = await UserModel.findOne({ email });
-        if (!user || !(await bcrypt.compare(password, user.password))) {
+        if (!user) {
+            console.error("User not found:", email);
             return res.status(403).json({ message: "Invalid email or password", success: false });
         }
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            console.error("Password mismatch for email:", email);
+            return res.status(403).json({ message: "Invalid email or password", success: false });
+        }
+
         const jwtToken = jwt.sign({ email: user.email, _id: user._id }, process.env.JWT_SECRET, { expiresIn: "24h" });
+
         res.status(200).json({
             message: "Login successful",
             success: true,
@@ -49,15 +62,15 @@ const login = async (req, res) => {
             name: user.name,
         });
     } catch (err) {
-    console.error("Error:", err.message);  // Print only the error message
-    res.status(500).json({
-        message: "Internal Server Error",
-        success: false,
-        error: err.message,  // Optional: Send the error message in the response for debugging
-    });
-}
-
+        console.error("Login Error:", err);  // Log the full error object
+        res.status(500).json({
+            message: "Internal Server Error",
+            success: false,
+            error: process.env.NODE_ENV === 'development' ? err.message : undefined,  // Optional: Send error details only in development
+        });
+    }
 };
+
 
 const employeeForm = async (req, res) => {
   try {
