@@ -26,7 +26,7 @@ const EmployeeTable = () => {
     const fetchEmployees = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await fetch("http://localhost:8080/auth/employees", {
+        const response = await fetch("https://deploy-employee-manageent-system.vercel.app/auth/employees", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
