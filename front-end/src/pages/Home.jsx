@@ -1,132 +1,109 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { handleSuccess, handleError } from "../utils";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import "./Home.css";
+import { handleError, handleSuccess } from "../utils";
+import "./Login.css";
 
-const Home = () => {
-  const [loggedInUser, setLoggedInUser] = useState("");
-  const [showAdminLogin, setShowAdminLogin] = useState(false);
-  const [adminCredentials, setAdminCredentials] = useState({
-    userId: "",
+const Login = () => {
+  const [loginInfo, setLoginInfo] = useState({
+    email: "",
     password: "",
   });
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false); // Track admin login status
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const user = localStorage.getItem("loggedInUser");
-    const adminToken = localStorage.getItem("adminToken"); // Check if admin is logged in
-
-    if (user) {
-      setLoggedInUser(user);
-    } else {
-      navigate("/login"); // Redirect to login if no user is logged in
-    }
-
-    if (adminToken) {
-      setIsAdminLoggedIn(true); // Set admin login state
-    } else {
-      setShowAdminLogin(true); // Show admin login only if admin is not logged in
-    }
-  }, [navigate]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("loggedInUser");
-    localStorage.removeItem("adminToken"); // Clear admin token as well on logout
-    handleSuccess("User logged out");
-    setIsAdminLoggedIn(false); // Reset admin login state
-
-    setTimeout(() => {
-      navigate("/login");
-    }, 1000);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+    const copyLoginInfo = { ...loginInfo };
+    copyLoginInfo[name] = value;
+    setLoginInfo(copyLoginInfo);
   };
 
-  const handleAdminLogin = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    const { email, password } = loginInfo;
+    if (!email || !password) {
+      return handleError("email and password are required");
+    }
     try {
-      const response = await fetch("https://deploy-employee-manageent-system.vercel.app/auth/admin/login", {
+      const url = "https://deploy-employee-manageent-system.vercel.app/auth/login";
+      const response = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(adminCredentials),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginInfo),
       });
-
       const result = await response.json();
-
-      if (result.success) {
-        localStorage.setItem("adminToken", result.token); // Store admin JWT token
-        handleSuccess(result.message);
-        setShowAdminLogin(false); // Hide admin login after successful login
-        setIsAdminLoggedIn(true); // Set admin login state
-        navigate("/employeeTable"); // Redirect to the employee table after admin login
-      } else {
-        handleError(result.message);
+      const { success, message, jwtToken, name, error } = result;
+      if (success) {
+        handleSuccess(message);
+        localStorage.setItem("token", jwtToken);
+        localStorage.setItem("loggedInUser", name);
+        setTimeout(() => {
+          navigate("/home");
+        }, 1000);
+      } else if (error) {
+        const details = error?.details[0].message;
+        handleError(details);
+      } else if (!success) {
+        handleError(message);
       }
-    } catch (error) {
-      handleError("Error logging in: " + error.message);
+      console.log(result);
+    } catch (err) {
+      handleError(err);
     }
   };
 
   return (
     <div className="main-container">
-      <div className="header">
-        <h2 className="text">Employee Management System</h2>
-        {/* <h2 className='welcome'>Welcome, {loggedInUser}</h2>
-            <button onClick={handleLogout}>Logout</button> */}
-        <h3>
-          {" "}
-          Welcome, {loggedInUser}{" "}
-          <button onClick={handleLogout}> Logout </button>
-        </h3>
-      </div>
-
+      
 
       <div className="section">
-      <h1 className="heading">Employee Management System - Admin Portal</h1>
+      <h1 className="heading">Welcome to the Employee Management System!</h1>
       <p>
-      Welcome to the Admin Portal! As an admin, you have access to manage employee records. 
-      You can add new employees, update their details, or delete records as needed.
+      Please enter your credentials to access your account. If you are an admin, you can manage 
+      employee records, including adding, editing, and deleting employee details.
       </p>
-      <p>Admin ID: <b>'admin'</b> & Password:<b>'admin123'</b></p>
+      <p><b>Don't have an account? You can register by clicking the 'Sign Up' button below.</b></p>
       </div>
+      
 
-      {!isAdminLoggedIn && showAdminLogin && (
-        <form onSubmit={handleAdminLogin} className="admin-login-form">
-          <h2>Admin Login</h2>
-          <div>
-            <label>Admin ID:</label>
-            <input
-              type="text"
-              value={adminCredentials.userId}
-              onChange={(e) =>
-                setAdminCredentials({
-                  ...adminCredentials,
-                  userId: e.target.value,
-                })
-              }
-              required
-            />
-          </div>
-          <div>
-            <label>Password:</label>
-            <input
-              type="password"
-              value={adminCredentials.password}
-              onChange={(e) =>
-                setAdminCredentials({
-                  ...adminCredentials,
-                  password: e.target.value,
-                })
-              }
-              required
-            />
-          </div>
-          <button type="submit">Login</button>
-        </form>
-      )}
-
-      <ToastContainer />
+      <div className="login-container">
+        <div className="login-content">
+          <h1 className="login-h1">Login</h1>
+          <form onSubmit={handleLogin} className="login-form">
+            <div className="div-login-elements">
+              <label htmlFor="email">Email:</label>
+              <input
+                onChange={handleChange}
+                type="email"
+                name="email"
+                placeholder="Enter your email..."
+                value={loginInfo.email}
+              />
+            </div>
+            <div className="div-login-elements">
+              <label htmlFor="password">Password:</label>
+              <input
+                onChange={handleChange}
+                type="password"
+                name="password"
+                placeholder="Enter your password..."
+                value={loginInfo.password}
+              />
+            </div>
+            <button type="submit" className="login-button">
+              Login
+            </button>
+            <span>
+              Don't have an account ?<Link to="/signup">Signup</Link>
+            </span>
+          </form>
+          <ToastContainer />
+        </div>
+      </div>
       <footer className="footer">
         <p>
           &copy; {new Date().getFullYear()} Employee Management System. All
@@ -138,4 +115,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Login;
