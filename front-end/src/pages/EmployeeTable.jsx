@@ -66,7 +66,7 @@ const EmployeeTable = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:8080/auth/employee/${editingEmployee._id}`,
+        `https://deploy-employee-manageent-system.vercel.app/auth/employee/${editingEmployee._id}`,
         {
           method: "PUT",
           headers: {
@@ -106,7 +106,7 @@ const EmployeeTable = () => {
     if (window.confirm("Are you sure you want to delete this employee?")) {
       try {
         const response = await fetch(
-          `http://localhost:8080/auth/employee/${employeeId}`,
+          `https://deploy-employee-manageent-system.vercel.app/auth/employee/${employeeId}`,
           {
             method: "DELETE",
             headers: {
