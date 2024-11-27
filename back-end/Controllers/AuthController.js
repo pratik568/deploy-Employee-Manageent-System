@@ -23,12 +23,14 @@ const signup = async (req, res) => {
             success: true,
         });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            message: "Internal Server Error",
-            success: false,
-        });
-    }
+    console.error("Error:", err.message);  // Print only the error message
+    res.status(500).json({
+        message: "Internal Server Error",
+        success: false,
+        error: err.message,  // Optional: Send the error message in the response for debugging
+    });
+}
+
 };
 
 const login = async (req, res) => {
