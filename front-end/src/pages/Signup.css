@@ -1,0 +1,116 @@
+
+
+/* Main container for the signup page */
+.signup-container {
+    background-color: #ffffff;  /* White background for the form */
+    width: 90vw;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #ddd;  /* Light border */
+    margin: 10vh auto;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Content styling within the signup container */
+.signup-content {
+    margin-top: 5%;
+}
+
+/* Header styling for signup page */
+.signup-h1 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;  /* Dark color for contrast */
+    margin-bottom: 20px;
+}
+
+/* Styling the form container */
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Each individual input element styling */
+.div-signup-elements {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Label styling */
+.signup-container label {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 5px;
+}
+
+/* Input field styling */
+.signup-container input {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.signup-container input:focus {
+    border-color: #6fff74;  /* Focus border color matching primary color */
+}
+
+.signup-container input::placeholder {
+    font-size: 12px;
+    font-style: italic;
+    color: #888;  /* Light color for placeholder */
+}
+
+/* Button styling */
+.signup-form button {
+    background-color: #6fff74; /* Primary color for button */
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 18px;
+    padding: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.signup-form button:hover {
+    background-color: #5fd35c; /* Slightly darker green on hover */
+}
+
+/* Styling for the signup link */
+.signup-form span {
+    font-size: 14px;
+    text-align: center;
+    color: #666;
+}
+
+.signup-form span a {
+    color: #6fff74; /* Primary color for link */
+    text-decoration: none;
+}
+
+.signup-form span a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .signup-container {
+        width: 95vw;  /* Adjust for smaller screen */
+        padding: 20px;
+    }
+
+    .signup-h1 {
+        font-size: 20px;
+    }
+
+    .signup-form button {
+        font-size: 16px;
+        padding: 10px;
+    }
+}

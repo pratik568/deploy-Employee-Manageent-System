@@ -1,0 +1,113 @@
+
+
+.main-container{
+    /* border: 2px solid black; */
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.header {
+    display: flex;              
+    justify-content: space-between;  
+    align-items: center;        
+    background-color: #4CAF50;  
+    /* background-color: rgb(199, 164, 118); */
+    padding: 10px 20px;         
+    color: white;               
+    font-family: Arial, sans-serif;  
+    /* border: solid 2px #ff3030; */
+    
+}
+
+.text{
+    color: #000;
+}
+
+
+.header button {
+    background-color: #ff5c5c;  
+    color: white;               
+    border: none;               
+    padding: 8px 16px;          
+    border-radius: 5px;         
+    cursor: pointer;            
+    font-size: 16px;            
+}
+
+.header button:hover {
+    background-color: #fa1212;  
+}
+
+
+
+
+.admin-login-form {
+    width: 100%;                      
+    max-width: 250px;                 
+    margin: 50px auto;                
+    background-color: #f9f9f9;        
+    padding: 20px;                    
+    border: 1px solid #ccc;           
+    border-radius: 10px;              
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  
+    font-family: Arial, sans-serif;   
+}
+
+.admin-login-form h2 {
+    text-align: center;               
+    margin-bottom: 20px;              
+    color: #333;                      
+}
+
+.admin-login-form div {
+    margin-bottom: 15px;              
+}
+
+.admin-login-form label {
+    display: block;                   
+    margin-bottom: 5px;               
+    font-weight: bold; 
+    color: #555;    
+}
+
+.admin-login-form input {
+    width: 96%;               
+    padding: 10px;       
+    border: 1px solid #ccc;    
+    border-radius: 5px;           
+    font-size: 14px;          
+}
+
+.admin-login-form button {
+    width: 100%;  
+    background-color: #4CAF50;    
+    color: white;               
+    border: none;        
+    padding: 10px;          
+    border-radius: 5px;    
+    font-size: 16px;      
+    cursor: pointer;       
+    margin-top: 10px;       
+}
+
+.admin-login-form button:hover {
+    background-color: #45a049;      
+}
+
+
+
+
+
+
+
+
+.footer {
+    background-color: #4CAF50;   
+    color: white;                
+    text-align: center;
+    padding: 10px 0;            
+
+    bottom: 0;                                  
+    font-size: 14px;    
+    /* border: solid 2px red;          */
+}
