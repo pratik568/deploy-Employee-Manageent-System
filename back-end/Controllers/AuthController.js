@@ -42,18 +42,21 @@ const login = async (req, res) => {
         console.log("Login request received for:", email);
 
         const user = await UserModel.findOne({ email });
+        console.log(user);
         if (!user) {
             console.error("User not found:", email);
             return res.status(403).json({ message: "Invalid email or password", success: false });
         }
 
         const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        console.log("hii" ,isPasswordCorrect);
         if (!isPasswordCorrect) {
             console.error("Incorrect password for:", email);
             return res.status(403).json({ message: "Invalid email or password", success: false });
         }
-
+        console.log(process.env.JWT_SECRET);
         const jwtToken = jwt.sign({ email: user.email, _id: user._id }, process.env.JWT_SECRET, { expiresIn: "24h" });
+        console.log(jwtToken);
         res.status(200).json({
             message: "Login successful",
             success: true,
@@ -62,6 +65,8 @@ const login = async (req, res) => {
             name: user.name,
         });
     } catch (err) {
+        console.log(process.env.JWT_SECRET);
+        console.log(process.env.MONGO_CONN);
         console.error("Login error:", err);
         res.status(500).json({
             message: "Internal Server Error",
