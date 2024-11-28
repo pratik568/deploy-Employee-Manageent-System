@@ -26,7 +26,7 @@ const EmployeeTable = () => {
     const fetchEmployees = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await fetch("https://deploy-employee-manageent-system.vercel.app/auth/employees", {
+        const response = await fetch("https://deploy-employee-manageent-system-i3zf.vercel.app/auth/employees", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -66,7 +66,7 @@ const EmployeeTable = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `https://deploy-employee-manageent-system.vercel.app/auth/employee/${editingEmployee._id}`,
+        `https://deploy-employee-manageent-system-i3zf.vercel.app/auth/employee/${editingEmployee._id}`,
         {
           method: "PUT",
           headers: {
@@ -106,7 +106,7 @@ const EmployeeTable = () => {
     if (window.confirm("Are you sure you want to delete this employee?")) {
       try {
         const response = await fetch(
-          `https://deploy-employee-manageent-system.vercel.app/auth/employee/${employeeId}`,
+          `https://deploy-employee-manageent-system-i3zf.vercel.app/auth/employee/${employeeId}`,
           {
             method: "DELETE",
             headers: {
