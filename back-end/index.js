@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 8080;
 
 // Enhanced CORS setup
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://deploy-employee-manageent-system.vercel.app'],  // Add your frontend URL
+    origin: ['http://localhost:3000', 'https://deploy-employee-manageent-system-6z34.vercel.app'],  // Add your frontend URL
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true  // Allows cookies and Authorization headers
