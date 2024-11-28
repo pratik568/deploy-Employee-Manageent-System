@@ -8,19 +8,21 @@ require('./Models/db');  // MongoDB connection setup
 
 const PORT = process.env.PORT || 8080;
 
-// Middleware setup
-app.use(bodyParser.json());
-
 // Enhanced CORS setup
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://deploy-employee-manageent-system-i3zf.vercel.app'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // Include OPTIONS method
-    allowedHeaders: ['Content-Type', 'Authorization'],  // Specify allowed headers
+    origin: ['http://localhost:3000', 'https://deploy-employee-manageent-system.vercel.app'],  // Add your frontend URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true  // Allows cookies and Authorization headers
 }));
 
 // Handle preflight requests explicitly
-app.options('*', cors());  // Respond to all preflight requests
+app.options('*', cors(), (req, res) => {
+    res.sendStatus(200);
+});
+
+// Middleware setup
+app.use(bodyParser.json());
 
 // Health check endpoint
 app.get('/ping', (req, res) => {
@@ -28,14 +30,7 @@ app.get('/ping', (req, res) => {
 });
 
 // Routes
-app.use('/auth', AuthRouter);  // All routes defined in AuthRouter.js
-
-// Catch 404 and forward to error handler
-app.use((req, res, next) => {
-    const error = new Error('Not Found');
-    error.status = 404;
-    next(error);
-});
+app.use('/auth', AuthRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
