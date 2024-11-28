@@ -30,7 +30,7 @@ const AddEmployee = () => {
                 return navigate('/login'); // Redirect to login if token is missing
             }
 
-            const url = "https://deploy-employee-manageent-system-i3zf.vercel.app/auth/employeeForm";
+            const url = "https://deploy-employee-manageent-system.vercel.app/auth/employeeForm";
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
