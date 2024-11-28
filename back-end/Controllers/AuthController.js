@@ -35,7 +35,9 @@ const signup = async (req, res) => {
 
 // Login route
 const login = async (req, res) => {
+    console.log("inlogin");
     try {
+        console.log("intry");
         const { email, password } = req.body;
         console.log("Login request received for:", email);
 
