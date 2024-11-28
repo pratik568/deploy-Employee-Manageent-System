@@ -46,7 +46,7 @@ const Home = () => {
   const handleAdminLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://deploy-employee-manageent-system.vercel.app/auth/admin/login", {
+      const response = await fetch("https://deploy-employee-manageent-system-i3zf.vercel.app/auth/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(adminCredentials),
